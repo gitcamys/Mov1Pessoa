@@ -50,6 +50,8 @@ public class PlayerControllerRB : MonoBehaviour
     void Update()
     {
         moveVector = moveInput.ReadValue<Vector2>();
+        currentMoveSpeed = runInput.IsPressed() ? RunningSpeed : WalkSpeed;
+        
         if (jumpInput.WasPressedThisFrame()) 
         {
             jumpRequested = true;
