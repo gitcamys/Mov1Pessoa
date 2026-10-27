@@ -12,7 +12,16 @@ public class PlayerControllerCC : MonoBehaviour
     private InputAction moveInput;
     private InputAction runInput;
     private InputAction jumpInput;
+
+    
     private InputAction lookInput;
+
+    private Camera mainCamera;
+
+    [SerializeField] private float LookSensivity =0.2f;
+    [SerializeField] private float LookAngleLimit = 90f;
+    private float lookAngle = 0.0f;
+
 
     private float currentMoveSpeed = 0.0f; 
     private float verticalVelocity = 0f;
@@ -25,6 +34,8 @@ public class PlayerControllerCC : MonoBehaviour
         runInput = InputSystem.actions.FindAction("Sprint");
         jumpInput = InputSystem.actions.FindAction("Jump");
         lookInput = InputSystem.actions.FindAction("Look");
+        mainCamera =GetComponentInChildren<Camera>();
+
 
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -39,6 +50,9 @@ public class PlayerControllerCC : MonoBehaviour
         Vector2 moveVector = moveInput.ReadValue<Vector2>();
         currentMoveSpeed = runInput.IsPressed() ? RunningSpeed : WalkSpeed;
         HandleMovement(moveVector);
+        Vector2 lookVector = lookInput.ReadValue<Vector2>();
+        HandleCamera(lookVector);
+
     }
 
     private void HandleMovement(Vector2 moveVector)
@@ -60,6 +74,14 @@ public class PlayerControllerCC : MonoBehaviour
         moveDirection.y = verticalVelocity; 
 
         characterController.Move(moveDirection * Time.deltaTime);
+    }
+
+     private void HandleCamera(Vector2 lookVector)
+    {
+        lookAngle += -lookVector.y * LookSensivity;
+        lookAngle = Mathf.Clamp(lookAngle, -LookAngleLimit, LookAngleLimit);
+        mainCamera.transform.localRotation = Quaternion.Euler(lookAngle, 0, 0);
+        transform.rotation *= Quaternion.Euler (0, lookVector.x * LookSensivity, 0);
     }
 }
 

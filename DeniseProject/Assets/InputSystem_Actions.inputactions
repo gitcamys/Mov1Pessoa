@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputSystem_Actions",
     "maps": [
         {
@@ -211,11 +212,11 @@
                 },
                 {
                     "name": "",
-                    "id": "3ea4d645-4504-4529-b061-ab81934c3752",
+                    "id": "8eca90f2-1041-4a24-943c-55cdf29ac3ef",
                     "path": "<Joystick>/stick",
                     "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
+                    "processors": "InvertVector2",
+                    "groups": "",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
